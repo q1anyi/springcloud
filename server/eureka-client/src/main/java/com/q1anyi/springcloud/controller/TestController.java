@@ -24,8 +24,8 @@ public class TestController {
 
     @GetMapping("/info")
     public String info() {
-        log.info(discoveryClient.toString());
-        return discoveryClient.toString();
+        log.info(discoveryClient.description());
+        return discoveryClient.description();
     }
 
     @GetMapping("/hello")
