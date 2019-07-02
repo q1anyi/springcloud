@@ -1,4 +1,4 @@
-package com.q1anyi.springcloud;
+package com.eureka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.q1anyi.springcloud.controller;
+package com.eureka.controller;
 
 
 import org.slf4j.Logger;
