@@ -1,10 +1,10 @@
-package com.eureka;
+package com.q1anyi.springcloud.controller;
 
 
-import com.netflix.discovery.DiscoveryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,12 +20,12 @@ public class TestController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private DiscoveryClient client;
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/info")
     public String info() {
-        log.info(client.toString());
-        return client.toString();
+        log.info(discoveryClient.toString());
+        return discoveryClient.toString();
     }
 
     @GetMapping("/hello")
