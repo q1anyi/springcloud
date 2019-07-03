@@ -1,6 +1,7 @@
 package com.eureka.controller;
 
 import com.eureka.entity.User;
+import com.eureka.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @Author: caicy
@@ -26,18 +29,46 @@ public class TestController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("testCache")
+    public void testCache() {
+        userService.getUser(1L);
+        userService.getUser(1L);
+        userService.getUser(1L);
+    }
+
     @GetMapping("/info")
     public String getInfo() {
         return this.restTemplate.getForEntity("http://Server-Provider/info", String.class).getBody();
     }
 
-    @GetMapping("user/{id:\\d+}")
+//    @GetMapping("user/{id:\\d+}")
+//    public User getUser(@PathVariable Long id) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("id", id);
+//        URI uri = UriComponentsBuilder.fromUriString("http://Server-Provider/user/{id}")
+//                .build().expand(params).encode().toUri();
+//        return this.restTemplate.getForEntity(uri, User.class).getBody();
+//    }
+
+    @GetMapping("user/{id}")
     public User getUser(@PathVariable Long id) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", id);
-        URI uri = UriComponentsBuilder.fromUriString("http://Server-Provider/user/{id}")
-                .build().expand(params).encode().toUri();
-        return this.restTemplate.getForEntity(uri, User.class).getBody();
+        return userService.getUser(id);
+    }
+
+    @GetMapping("testRequestMerge")
+    public void testRequerstMerge() throws InterruptedException, ExecutionException {
+        Future<User> f1 = userService.findUser(1L);
+        Future<User> f2 = userService.findUser(2L);
+        Future<User> f3 = userService.findUser(3L);
+        f1.get();
+        f2.get();
+        f3.get();
+        Thread.sleep(200);
+        Future<User> f4 = userService.findUser(4L);
+        f4.get();
     }
 
     @GetMapping("user")

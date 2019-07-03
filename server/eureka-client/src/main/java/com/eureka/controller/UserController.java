@@ -18,6 +18,16 @@ import java.util.List;
 public class UserController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @GetMapping("users")
+    public List<User> get(String ids) {
+        log.info("批量获取用户信息");
+        List<User> list = new ArrayList<>();
+        for (String id : ids.split(",")) {
+            list.add(new User(Long.valueOf(id), "user" + id, "123456"));
+        }
+        return list;
+    }
+
     @GetMapping("/{id:\\d+}")
     public User get(@PathVariable Long id) {
         log.info("获取用户id为 " + id + "的信息");
