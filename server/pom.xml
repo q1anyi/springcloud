@@ -10,6 +10,7 @@
         <module>Hystrix-Dashboard</module>
         <module>hystrix-dashboard</module>
         <module>hystrix-turbine</module>
+        <module>feign-consumer</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
