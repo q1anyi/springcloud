@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: caicy
- * @Date: Created In 2019-07-10 6:59
+ * @Date: 2019-07-13 15:16
  * @Description:
  */
 @Component
-public class PreSendForwardFilter extends ZuulFilter {
+public class SecondFilter extends ZuulFilter {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private static Logger log = LoggerFactory.getLogger(SecondFilter.class);
 
     @Override
     public String filterType() {
@@ -27,13 +27,12 @@ public class PreSendForwardFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        // 优先级,数字越大,优先级越低
-        return 0;
+        // 优先级，数字越大，优先级越低
+        return 1;
     }
 
     @Override
     public boolean shouldFilter() {
-        // 是否执行该过滤器，true代表需要过滤
         return true;
     }
 
@@ -41,10 +40,7 @@ public class PreSendForwardFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
-        String host = request.getRemoteHost();
-        String method = request.getMethod();
-        String uri = request.getRequestURI();
-        log.info("请求URI：{}，HTTP Method：{}，请求IP：{}", uri, method, host);
+        log.info("second过滤器!");
         return null;
     }
 }
